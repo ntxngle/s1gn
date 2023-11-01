@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--https://a.kabachnik.info/onscan-js-playground.html#prettyPhoto-->
+		<title>i hate electron</title>
+		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="debug2.css">
+	</head>
+	<body>
+		<div>
+			<div class="counter">
+				<h1>00</h1>
+				<div class="log"></div>
+			</div>
+			<div class="ft">
+				<button onclick="bingle(1);">Ban</button>
+				<button onclick="bingle(0);">Manual Entry</button>
+				<button onclick="bingle(6);">Edit</button>
+				<button onclick="bingle(5);">Help</button>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>Manual Entry</h1>
+			<div class="clickoff">
+				<input maxlength="8" placeholder="00000000"><button>-&gt;</button>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>Ban ! 1!! !! </h1>
+			<div class="clickoff">
+				<input maxlength="8" placeholder="00000000"><button>-&gt;</button>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>Help</h1>
+			<div class="clickoff">
+				<p>Keybinds:</p>
+				<ul>
+					<li><code>h</code> Open this help</li>
+					<li><code>b</code> Ban</li>
+					<li><code>e</code> Edit</li>
+					<li><code>m</code> Manual Entry</li>
+					<li><code>esc</code> Close popup</li>
+				</ul>
+				<p>Usage</p>
+				<ul>
+					<li><code>Edit</code> Remove or add to count</li>
+					<li><code>Manual</code> Alternative to scanning ID</li>
+					<li><code>Ban</code> Blacklist user from entering</li>
+				</ul>
+				<p>Misc</p>
+				<ul>
+					<li>Connected: <code>no</code></li>
+					<li>Uptime: <code>23:10:32:47</code></li>
+				</ul>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>Edit</h1>
+			<div class="clickoff">
+				<label>Add (or remove)&nbsp;</label><input><button>-&gt;</button>
+			</div>
+		</div>
+		<script src="bingle.js"></script>
+	</body>
+</html>
