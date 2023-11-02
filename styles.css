@@ -110,8 +110,10 @@ h1{
 .pop-content>div>p{
 	font-family: "Iosevka";
 	font-weight: normal;
-	font-size: 2em;
+	font-size: 1em;
 	color: white;
+	text-align: center;
+	padding-left: 2.5em;
 }
 .pop-content>div>ul{
 	list-style: none;
