@@ -72,18 +72,7 @@ document.body.addEventListener("keydown", function(e){
 document.body.addEventListener("click", function(e){
 	console.log(e.target.classList + "\n" + e.target.parentElement.classList);
 	if(e.target.classList.contains("manbutton")){
-		let v = document.getElementById("man").value;
-		// let n = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-		console.log("EventV: " + v);
-		if(v.length != 8){
-			document.getElementById("splash").innerText = "Not a valid ID Number";
-			document.getElementById("splash").style.color = "#eb3434";
-			document.getElementById("splash").style.fontWeight = "bold";
-			console.log(!n);
-			return;
-		}
-		bingle(2);
-		enter(v);
+		submitNum();
 	}
 	else if(!e.target.classList.contains("clickoff")&&!e.target.parentElement.classList.contains("clickoff")&&e.target.tagName!="BUTTON"){
 		bingle(2);
@@ -95,17 +84,20 @@ document.getElementById('man').addEventListener('keydown', function(e) {
         e.preventDefault();
     }
 	if (e.which === 13){
-		let v = document.getElementById("man").value;
-		// let n = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-		console.log("EventV: " + v);
-		if(v.length != 8){
-			document.getElementById("splash").innerText = "Not a valid ID Number";
-			document.getElementById("splash").style.color = "#eb3434";
-			document.getElementById("splash").style.fontWeight = "bold";
-			console.log(!n);
-			return;
-		}
-		bingle(2);
-		enter(v);
+		submitNum();
 	}
 });
+
+function submitNum(){
+	let v = document.getElementById("man").value;
+	console.log("EventV: " + v);
+	if(v.length != 8){
+		document.getElementById("splash").innerText = "Not a valid ID Number";
+		document.getElementById("splash").style.color = "#eb3434";
+		document.getElementById("splash").style.fontWeight = "bold";
+		console.log(!n);
+		return;
+	}
+	bingle(2);
+	enter(v);
+}
