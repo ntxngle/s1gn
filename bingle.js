@@ -89,3 +89,23 @@ document.body.addEventListener("click", function(e){
 		bingle(2);
 	}
 });
+
+document.getElementById('man').addEventListener('keydown', function(e) {
+    if (e.which === 38 || e.which === 40) {
+        e.preventDefault();
+    }
+	if (e.which === 13){
+		let v = document.getElementById("man").value;
+		// let n = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+		console.log("EventV: " + v);
+		if(v.length != 8){
+			document.getElementById("splash").innerText = "Not a valid ID Number";
+			document.getElementById("splash").style.color = "#eb3434";
+			document.getElementById("splash").style.fontWeight = "bold";
+			console.log(!n);
+			return;
+		}
+		bingle(2);
+		enter(v);
+	}
+});

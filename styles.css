@@ -97,6 +97,13 @@ h1{
 	border: 0px;
 	width: 210px;
 	border-bottom: 1px solid white;
+	
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 .pop-content>div>button{
 	font-family: "Iosevka";
