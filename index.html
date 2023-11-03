@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="onscan.min.js"></script>
 		<!--https://a.kabachnik.info/onscan-js-playground.html#prettyPhoto-->
 		<title>i hate electron</title>
 		<link rel="stylesheet" href="styles.css">
@@ -22,7 +23,9 @@
 		<div class="pop-content">
 			<h1>Manual Entry</h1>
 			<div class="clickoff">
-				<input maxlength="8" placeholder="00000000"><button>-&gt;</button>
+				<input id="man" type="number" inputmode="numeric" maxlength="8" placeholder="00000000" step="0"><button class="manbutton">-&gt;</button>
+				<br>
+				<p id="splash">Input ID Number</p>
 			</div>
 		</div>
 		<div class="pop-content">

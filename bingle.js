@@ -1,4 +1,12 @@
-setInterval(function(){
+onScan.attachTo(document,{
+	onScan: function(sCode, iQty) { // Alternative to document.addEventListener('scan')
+	alert('Scanned: ' + iQty + 'x ' + sCode);
+}});
+
+function enter(v){
+	console.log("v: " + v);
+	idNumber = v;
+	console.log("idNum: " + idNumber);
 	let x = document.getElementsByClassName("counter")[0];
 	x.children[0].textContent = (parseInt(x.children[0].textContent)+1).toString().padStart(2,'0');
 	x = document.getElementsByClassName("log")[0];
@@ -6,9 +14,10 @@ setInterval(function(){
 		x.removeChild(x.children[7])
 	}
 	let b = document.createElement("h1");
-	b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
+	// b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
+	b.textContent = "<- " + idNumber;
 	x.prepend(b);
-}, 1200);
+}
 function bingle(j){
 	if(j==0){
 		bingle(3);
@@ -66,8 +75,34 @@ document.body.addEventListener("keydown", function(e){
 	}
 });
 document.body.addEventListener("click", function(e){
-	console.log(e.target);
-	if(!e.target.classList.contains("clickoff")&&!e.target.parentElement.classList.contains("clickoff")&&e.target.tagName!="BUTTON"){
+	console.log(e.target.classList + "\n" + e.target.parentElement.classList);
+	if(e.target.classList.contains("manbutton")){
+		submitNum();
+	}
+	else if(!e.target.classList.contains("clickoff")&&!e.target.parentElement.classList.contains("clickoff")&&e.target.tagName!="BUTTON"){
 		bingle(2);
 	}
 });
+
+document.getElementById('man').addEventListener('keydown', function(e) {
+    if (e.which === 38 || e.which === 40) {
+        e.preventDefault();
+    }
+	if (e.which === 13){
+		submitNum();
+	}
+});
+
+function submitNum(){
+	let v = document.getElementById("man").value;
+	console.log("EventV: " + v);
+	if(v.length != 8){
+		document.getElementById("splash").innerText = "Not a valid ID Number";
+		document.getElementById("splash").style.color = "#eb3434";
+		document.getElementById("splash").style.fontWeight = "bold";
+		console.log(!n);
+		return;
+	}
+	bingle(2);
+	enter(v);
+}
