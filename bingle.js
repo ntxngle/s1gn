@@ -1,3 +1,8 @@
+onScan.attachTo(document,{
+	onScan: function(sCode, iQty) { // Alternative to document.addEventListener('scan')
+	alert('Scanned: ' + iQty + 'x ' + sCode);
+}});
+
 function enter(v){
 	console.log("v: " + v);
 	idNumber = v;
