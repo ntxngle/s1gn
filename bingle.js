@@ -1,6 +1,11 @@
 onScan.attachTo(document,{
 	onScan: function(sCode, iQty) { // Alternative to document.addEventListener('scan')
-	alert('Scanned: ' + iQty + 'x ' + sCode);
+		// iQty is Quantity of times the value was scanned at that time (not sure why relevance, maybe with hardware means more) 
+		// sCode is the scanned value: Raw ID number
+		// Below prints to console `<quantity>x <IDNumber>
+			// Example "Scanned: 1x 27894302"
+		console.log('Scanned: ' + iQty + 'x ' + sCode);
+		enter(sCode);
 }});
 
 function enter(v){
