@@ -64,6 +64,7 @@ function leave(v){
 	console.log("Inside: " + records);
 }
 
+
 function ban(v){
 	console.log("Ban FUNC moment");
 	if(banned.find(({ idNumber }) => idNumber === v.idNumber)){
