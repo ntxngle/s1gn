@@ -5,13 +5,18 @@ onScan.attachTo(document,{
 		// Below prints to console `<quantity>x <IDNumber>
 			// Example "Scanned: 1x 27894302"
 		console.log('Scanned: ' + iQty + 'x ' + sCode);
-		enter(sCode);
+		people(sCode);
 }});
 
 function enter(v){
 	console.log("v: " + v);
-	idNumber = v;
+	// idNumber = v;
+	idNumber = v.idNumber;
+	firstName = v.firstName;
+	lastName = v.lastName;
 	console.log("idNum: " + idNumber);
+	console.log("First: " + firstName);
+	console.log("Last: " + lastName);
 	let x = document.getElementsByClassName("counter")[0];
 	x.children[0].textContent = (parseInt(x.children[0].textContent)+1).toString().padStart(2,'0');
 	x = document.getElementsByClassName("log")[0];
@@ -20,12 +25,14 @@ function enter(v){
 	}
 	let b = document.createElement("h1");
 	// b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
-	b.textContent = "<- " + idNumber;
+	b.textContent = "<- " + firstName;
 	x.prepend(b);
+	
 }
+
 function bingle(j){
 	if(j==0){
-		bingle(3);
+		bingle(3); 
 		document.getElementsByTagName("div")[0].classList.add("blur");
 		bingle(4);
 		document.getElementsByClassName("pop-content")[0].classList.add("pop-shown");
@@ -105,9 +112,20 @@ function submitNum(){
 		document.getElementById("splash").innerText = "Not a valid ID Number";
 		document.getElementById("splash").style.color = "#eb3434";
 		document.getElementById("splash").style.fontWeight = "bold";
-		console.log(!n);
 		return;
 	}
 	bingle(2);
-	enter(v);
+	people(v);
+}
+
+async function people(v){
+	const fetchPromise = fetch('./server/people.json');
+	fetchPromise
+	.then((response) => response.json())
+	.then((data) => {
+		console.log(data);
+		filtered = data.find(({ idNumber }) => idNumber === v);
+		console.log(filtered);
+		enter(filtered);
+  });	
 }
