@@ -66,12 +66,13 @@ function leave(v){
 
 function ban(v){
 	console.log("Ban FUNC moment");
-	banned.push(v);
+	if(banned.find(({ idNumber }) => idNumber === v.idNumber)){
+		banned.splice(v, 1);
+	}else{
+		banned.push(v);
+	}
 	console.log(banned);
-	fetch('http://127.0.0.1:3000/ban.json', {
-		method: 'POST',
-		body: JSON.stringify(banned)
-	});
+
 }
 
 function bingle(j){
