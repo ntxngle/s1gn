@@ -133,6 +133,9 @@ document.body.addEventListener("click", function(e){
 	else if(e.target.classList.contains("banbutton")){
 		submitBan();
 	}
+	else if(e.target.classList.contains("editbutton")){
+		submitEdit();
+	}
 	else if(!e.target.classList.contains("clickoff")&&!e.target.parentElement.classList.contains("clickoff")&&e.target.tagName!="BUTTON"){
 		bingle(2);
 	}
@@ -152,6 +155,14 @@ document.getElementById('ban').addEventListener('keydown', function(e) {
     }
 	if (e.which === 13){
 		submitBan();
+	}
+});
+document.getElementById('edit').addEventListener('keydown', function(e) {
+    if (e.which === 38 || e.which === 40) {
+        e.preventDefault();
+    }
+	if (e.which === 13){
+		submitEdit();
 	}
 });
 
@@ -180,6 +191,20 @@ function submitBan(){
 	identifier = v + " BAN"
 	bingle(2);
 	people(identifier);
+}
+function submitEdit(){
+	let v = document.getElementById("edit").value;
+	console.log("EventV: " + v);
+	bingle(2);
+	let x = document.getElementsByClassName("counter")[0];
+	negTest = v.slice(0,1);
+	if (negTest == "-"){
+		vDown = v.slice(1);
+		x.children[0].textContent = (parseInt(x.children[0].textContent)-vDown).toString().padStart(2,'0');
+
+	}else{
+		x.children[0].textContent = (parseInt(x.children[0].textContent)+v).toString().padStart(2,'0');
+	}
 }
 
 
