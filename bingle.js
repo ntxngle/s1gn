@@ -27,7 +27,7 @@ function enter(v){
 		return;
 	}
 	let x = document.getElementsByClassName("counter")[0];
-	x.children[0].textContent = (parseInt(x.children[0].textContent)+1).toString().padStart(2,'0');
+	x.children[0].textContent = (parseInt(x.children[0].textContent)+1).toString();
 	x = document.getElementsByClassName("log")[0];
 	if(x.children.length == 8){
 		x.removeChild(x.children[7])
@@ -50,7 +50,7 @@ function leave(v){
 	console.log("First: " + firstName);
 	console.log("Last: " + lastName);
 	let x = document.getElementsByClassName("counter")[0];
-	x.children[0].textContent = (parseInt(x.children[0].textContent)-1).toString().padStart(2,'0');
+	x.children[0].textContent = (parseInt(x.children[0].textContent)-1).toString();
 	x = document.getElementsByClassName("log")[0];
 	if(x.children.length == 8){
 		x.removeChild(x.children[7])
@@ -205,10 +205,15 @@ function submitEdit(){
 	negTest = v.slice(0,1);
 	if (negTest == "-"){
 		vDown = v.slice(1);
-		x.children[0].textContent = (parseInt(x.children[0].textContent)-vDown).toString().padStart(2,'0');
+		vP =  parseInt(vDown)
+		x.children[0].textContent = (parseInt(x.children[0].textContent)-vDown).toString()
 
 	}else{
-		x.children[0].textContent = (parseInt(x.children[0].textContent)+v).toString().padStart(2,'0');
+		console.log(parseInt(x.children[0].textContent));
+		console.log(typeof parseInt(v)+v);
+		vP =  parseInt(v)
+		console.log(vP);
+		x.children[0].textContent = (parseInt(x.children[0].textContent)+vP).toString();
 	}
 }
 
