@@ -3,14 +3,14 @@
 	<head>
 		<script src="onscan.min.js"></script>
 		<!--https://a.kabachnik.info/onscan-js-playground.html#prettyPhoto-->
-		<title>i hate electron</title>
+		<title>Library Station</title>
 		<link rel="stylesheet" href="styles.css">
 		<link rel="stylesheet" href="debug2.css">
 	</head>
 	<body>
 		<div>
 			<div class="counter">
-				<h1>00</h1>
+				<h1>0</h1>
 				<div class="log"></div>
 			</div>
 			<div class="ft">
@@ -23,15 +23,16 @@
 		<div class="pop-content">
 			<h1>Manual Entry</h1>
 			<div class="clickoff">
-				<input id="man" type="number" inputmode="numeric" maxlength="8" placeholder="00000000" step="0"><button class="manbutton">-&gt;</button>
+				<input id="man" type="number" inputmode="numeric" maxlength="8" placeholder="00000000"><button class="manbutton">-&gt;</button>
 				<br>
-				<p id="splash">Input ID Number</p>
+				<p id="splashman">Input ID Number</p>
 			</div>
 		</div>
 		<div class="pop-content">
-			<h1>Ban ! 1!! !! </h1>
+			<h1>Ban</h1>
 			<div class="clickoff">
-				<input maxlength="8" placeholder="00000000"><button>-&gt;</button>
+				<input id="ban" type="number" inputmode="numeric" maxlength="8" placeholder="00000000"><button class="banbutton">-&gt;</button>
+				<p id="splashban">Input ID Number</p>
 			</div>
 		</div>
 		<div class="pop-content">
@@ -61,7 +62,7 @@
 		<div class="pop-content">
 			<h1>Edit</h1>
 			<div class="clickoff">
-				<label>Add (or remove)&nbsp;</label><input><button>-&gt;</button>
+				<label>Add (or remove)&nbsp;</label><input id="edit" type="number" inputmode="numeric" maxlength="8" placeholder="0"><button class="editbutton">-&gt;</button>
 			</div>
 		</div>
 		<script src="bingle.js"></script>
