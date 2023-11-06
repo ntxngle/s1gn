@@ -15,12 +15,17 @@ banGet();
 function enter(v){
 	console.log("v: " + v);
 	// idNumber = v;
-	idNumber = v.idNumber;
+	idNumberV = v.idNumber;
 	firstName = v.firstName;
 	lastName = v.lastName;
-	console.log("idNum: " + idNumber);
+	console.log("idNum: " + idNumberV);
 	console.log("First: " + firstName);
 	console.log("Last: " + lastName);
+	if(banned.find(({ idNumber }) => idNumber === idNumberV)){
+		console.log("ur banned....");
+		alert("Student is Banned!");
+		return;
+	}
 	let x = document.getElementsByClassName("counter")[0];
 	x.children[0].textContent = (parseInt(x.children[0].textContent)+1).toString().padStart(2,'0');
 	x = document.getElementsByClassName("log")[0];
@@ -31,7 +36,7 @@ function enter(v){
 	// b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
 	b.textContent = "<- " + firstName;
 	x.prepend(b);
-	records.push(idNumber);
+	records.push(idNumberV);
 	console.log(records);
 }
 
