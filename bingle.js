@@ -76,40 +76,39 @@ function ban(v){
 
 }
 
-function bingle(j){
-	if(j==0){
-		bingle(3); 
-		document.getElementsByTagName("div")[0].classList.add("blur");
-		bingle(4);
-		document.getElementsByClassName("pop-content")[0].classList.add("pop-shown");
-		document.getElementsByClassName("pop-shown")[0].getElementsByTagName("input")[0].focus();
-	} else if(j==1){
-		bingle(3);
-		document.getElementsByTagName("div")[0].classList.add("blur");
-		bingle(4);
-		document.getElementsByClassName("pop-content")[1].classList.add("pop-shown");
-		document.getElementsByClassName("pop-shown")[0].getElementsByTagName("input")[0].focus();
-	} else if(j==2){
-		bingle(3);
-		document.getElementsByTagName("div")[0].classList.remove("blur");
-        bingle(4);
-	} else if(j==3){
-		let x = document.getElementsByTagName("input");
-		for(let i=0;i<x.length;i++){x[i].value=""};
-	} else if(j==4){
-		let x = document.getElementsByClassName("pop-content");
-		for(let i=0;i<x.length;i++){x[i].classList.remove("pop-shown")};
-	} else if(j==5){
-		bingle(3);
-		document.getElementsByTagName("div")[0].classList.add("blur");
-		bingle(4);
-		document.getElementsByClassName("pop-content")[2].classList.add("pop-shown");
-	} else if(j==6){
-		bingle(3);
-		document.getElementsByTagName("div")[0].classList.add("blur");
-		bingle(4);
-		document.getElementsByClassName("pop-content")[3].classList.add("pop-shown");
-		document.getElementsByClassName("pop-shown")[0].getElementsByTagName("input")[0].focus();
+function bingle(j) {
+	let y = document.getElementsByClassName("pop-content");
+	switch(j) {
+		case 0: case 1: case 2: case 5: case 6:
+			let x = document.getElementsByTagName("input");
+			for(let i=0;i<x.length;i++){x[i].value=""};
+			break;
+	} switch (j) {
+		case 0: case 1: case 5: case 6:
+			document.getElementsByTagName("div")[0].classList.add("blur");
+			for(let i=0;i<y.length;i++){y[i].classList.remove("pop-shown")};
+			break;
+		case 2:
+			document.getElementsByTagName("div")[0].classList.remove("blur");
+			for(let i=0;i<y.length;i++){y[i].classList.remove("pop-shown")};
+			return;
+	} switch (j) {
+		case 0:
+			document.getElementsByClassName("pop-content")[0].classList.add("pop-shown");
+			break;
+		case 1:
+			document.getElementsByClassName("pop-content")[1].classList.add("pop-shown");
+			break;
+		case 5:
+			document.getElementsByClassName("pop-content")[2].classList.add("pop-shown");
+			return;
+		case 6:
+			document.getElementsByClassName("pop-content")[3].classList.add("pop-shown");
+			break;
+	} switch (j) {
+		case 0: case 1: case 6:
+			document.getElementsByClassName("pop-shown")[0].getElementsByTagName("input")[0].focus();
+			return;
 	}
 }
 document.body.addEventListener("keydown", function(e){
