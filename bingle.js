@@ -8,6 +8,10 @@ onScan.attachTo(document,{
 		people(sCode);
 }});
 
+const records = [];
+console.log(records);
+
+
 function enter(v){
 	console.log("v: " + v);
 	// idNumber = v;
@@ -27,7 +31,32 @@ function enter(v){
 	// b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
 	b.textContent = "<- " + firstName;
 	x.prepend(b);
-	
+	records.push(idNumber);
+	console.log(records);
+}
+
+function leave(v){
+	console.log("v: " + v);
+	// idNumber = v;
+	idNumber = v.idNumber;
+	firstName = v.firstName;
+	lastName = v.lastName;
+	console.log("idNum: " + idNumber);
+	console.log("First: " + firstName);
+	console.log("Last: " + lastName);
+	let x = document.getElementsByClassName("counter")[0];
+	x.children[0].textContent = (parseInt(x.children[0].textContent)-1).toString().padStart(2,'0');
+	x = document.getElementsByClassName("log")[0];
+	if(x.children.length == 8){
+		x.removeChild(x.children[7])
+	}
+	let b = document.createElement("h1");
+	// b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
+	b.textContent = "-> " + firstName;
+	x.prepend(b);
+	let remove = records.find(n => n == idNumber).findIndex;
+	records.splice(remove, 1);
+	console.log(records);
 }
 
 function bingle(j){
@@ -126,6 +155,12 @@ async function people(v){
 		console.log(data);
 		filtered = data.find(({ idNumber }) => idNumber === v);
 		console.log(filtered);
-		enter(filtered);
+		if (records.find(n => n == filtered.idNumber)){
+			console.log("Running leave");
+			leave(filtered);
+		}else{
+			console.log("Running enter");
+			enter(filtered);
+		}
   });	
 }
