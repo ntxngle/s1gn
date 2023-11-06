@@ -8,9 +8,9 @@ onScan.attachTo(document,{
 		people(sCode);
 }});
 
-const records = [];
-console.log(records);
-
+var banned = [];
+var records = [];
+banGet();
 
 function enter(v){
 	console.log("v: " + v);
@@ -57,6 +57,16 @@ function leave(v){
 	let remove = records.find(n => n == idNumber).findIndex;
 	records.splice(remove, 1);
 	console.log(records);
+}
+
+async function ban(v){
+	console.log("Ban FUNC moment");
+	banned.push(v);
+	console.log(banned);
+	fetch('http://127.0.0.1:3000/ban.json', {
+		method: 'POST',
+		body: JSON.stringify(banned)
+	});
 }
 
 function bingle(j){
@@ -118,7 +128,10 @@ document.body.addEventListener("keydown", function(e){
 document.body.addEventListener("click", function(e){
 	console.log(e.target.classList + "\n" + e.target.parentElement.classList);
 	if(e.target.classList.contains("manbutton")){
-		submitNum();
+		submitMan();
+	}
+	else if(e.target.classList.contains("banbutton")){
+		submitBan();
 	}
 	else if(!e.target.classList.contains("clickoff")&&!e.target.parentElement.classList.contains("clickoff")&&e.target.tagName!="BUTTON"){
 		bingle(2);
@@ -130,37 +143,78 @@ document.getElementById('man').addEventListener('keydown', function(e) {
         e.preventDefault();
     }
 	if (e.which === 13){
-		submitNum();
+		submitMan();
+	}
+});
+document.getElementById('ban').addEventListener('keydown', function(e) {
+    if (e.which === 38 || e.which === 40) {
+        e.preventDefault();
+    }
+	if (e.which === 13){
+		submitBan();
 	}
 });
 
-function submitNum(){
+function submitMan(){
 	let v = document.getElementById("man").value;
 	console.log("EventV: " + v);
 	if(v.length != 8){
-		document.getElementById("splash").innerText = "Not a valid ID Number";
-		document.getElementById("splash").style.color = "#eb3434";
-		document.getElementById("splash").style.fontWeight = "bold";
+		document.getElementById("splashman").innerText = "Not a valid ID Number";
+		document.getElementById("splashman").style.color = "#eb3434";
+		document.getElementById("splashman").style.fontWeight = "bold";
 		return;
 	}
+	identifier = v + " MAN"
 	bingle(2);
-	people(v);
+	people(identifier);
+}
+function submitBan(){
+	let v = document.getElementById("ban").value;
+	console.log("EventV: " + v);
+	if(v.length != 8){
+		document.getElementById("splashban").innerText = "Not a valid ID Number";
+		document.getElementById("splashban").style.color = "#eb3434";
+		document.getElementById("splashban").style.fontWeight = "bold";
+		return;
+	}
+	identifier = v + " BAN"
+	bingle(2);
+	people(identifier);
 }
 
+
 async function people(v){
-	const fetchPromise = fetch('./server/people.json');
+	const fetchPromise = fetch('http://127.0.0.1:3000/people.json');
 	fetchPromise
 	.then((response) => response.json())
 	.then((data) => {
 		console.log(data);
-		filtered = data.find(({ idNumber }) => idNumber === v);
+		console.log(v);
+		number = v.slice(0, 8);
+		identifier = v.slice(9);
+		filtered = data.find(({ idNumber }) => idNumber === number);
 		console.log(filtered);
-		if (records.find(n => n == filtered.idNumber)){
-			console.log("Running leave");
-			leave(filtered);
-		}else{
-			console.log("Running enter");
-			enter(filtered);
+		if(identifier == "" || identifier == "MAN"){
+			if(records.find(n => n == filtered.idNumber)){
+				console.log("Running leave");
+				leave(filtered);
+			}else{
+				console.log("Running enter");
+				enter(filtered);
+			}
+		}else if(identifier == "BAN"){
+			console.log("BAN MOMEN");
+			ban(filtered);
 		}
   });	
+}
+
+async function banGet(){
+	const fetchPromise = fetch('http://127.0.0.1:3000/ban.json');
+	fetchPromise
+	.then((response) => response.json())
+	.then((data) => {
+		banned = data;
+		console.log(banned);
+	});
 }
