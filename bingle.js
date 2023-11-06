@@ -64,7 +64,7 @@ function leave(v){
 	console.log(records);
 }
 
-async function ban(v){
+function ban(v){
 	console.log("Ban FUNC moment");
 	banned.push(v);
 	console.log(banned);
@@ -214,7 +214,8 @@ function submitEdit(){
 
 
 async function people(v){
-	const fetchPromise = fetch('http://127.0.0.1:3000/people.json');
+	// const fetchPromise = fetch('http://127.0.0.1:3000/people.json');
+	const fetchPromise = fetch('./server/people.json');
 	fetchPromise
 	.then((response) => response.json())
 	.then((data) => {
@@ -240,7 +241,8 @@ async function people(v){
 }
 
 async function banGet(){
-	const fetchPromise = fetch('http://127.0.0.1:3000/ban.json');
+	// const fetchPromise = fetch('http://127.0.0.1:3000/ban.json');
+	const fetchPromise = fetch('./server/ban.json');
 	fetchPromise
 	.then((response) => response.json())
 	.then((data) => {
