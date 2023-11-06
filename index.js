@@ -7,7 +7,7 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-	frame: false
+	frame: true
   })
 
   // and load the index.html of the app.
@@ -22,6 +22,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
+  mainWindow.maximize()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
