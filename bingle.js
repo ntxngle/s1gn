@@ -37,7 +37,7 @@ function enter(v){
 	b.textContent = "<- " + firstName;
 	x.prepend(b);
 	records.push(idNumberV);
-	console.log(records);
+	console.log("Inside: " + records);
 }
 
 function leave(v){
@@ -61,7 +61,7 @@ function leave(v){
 	x.prepend(b);
 	let remove = records.find(n => n == idNumber).findIndex;
 	records.splice(remove, 1);
-	console.log(records);
+	console.log("Inside: " + records);
 }
 
 function ban(v){
