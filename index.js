@@ -4,7 +4,7 @@ const fs = require('node:fs');
 function createWindow () {
 	const mainWindow = new BrowserWindow({
 		show: false,
-		frame: false,
+		frame: true,
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
