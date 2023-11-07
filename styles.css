@@ -2,10 +2,6 @@
 	font-family: "Iosevka";
 	src: url("iosevka.ttf");
 }
-@font-family{
-	font-family: "Operator Mono Light";
-	src: url("operator.otf");
-}
 html{
 	margin:0px;
 	height: 100%;
@@ -154,4 +150,8 @@ input::-webkit-inner-spin-button {
 .pop-shown{
 	display: inherit;
 	opacity: 1;
+}
+.bad-splash{
+	color: #eb3434 !important;
+	font-weight: bold !important;
 }
