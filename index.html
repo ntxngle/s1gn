@@ -14,6 +14,7 @@
 				<div class="log"></div>
 			</div>
 			<div class="ft">
+				<button onclick="abrir(6);">Limit</button>
 				<button onclick="abrir(1);">Ban</button>
 				<button onclick="abrir(0);">Manual Entry</button>
 				<button onclick="abrir(3);">Edit</button>
@@ -72,9 +73,21 @@
 			</div>
 		</div>
 		<div class="pop-content">
-			<h1 style="color:#eb3434;">&nbsp;</h1>
+			<h1 style="color:#eb3434;font-size: 6em;">&nbsp;</h1>
 			<div class="clickoff">
 				<label>Student is banned</label>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>Set limit</h1>
+			<div class="clickoff">
+				<label>Set occupany limit&nbsp;</label><input type="number" inputmode="numeric" maxlength="3" placeholder="0"><button onclick="subact(3);">-&gt;</button>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1 style="color:#eb3434;font-size: 6em;">X</h1>
+			<div class="clickoff">
+				<label>At capacity</label>
 			</div>
 		</div>
 		<script src="bongle.js"></script>

@@ -4,6 +4,7 @@ let state = {
     inside: [],
     nameCache: {},
     banCache: {},
+    max: null,
     authorized: [
         "28329274",
         "11111111"
@@ -22,7 +23,7 @@ onScan.attachTo(document,{
             document.getElementsByClassName("pop-shown")[0].getElementsByTagName("input")[0].value = sCode;
         } else if(document.getElementsByClassName("pop-shown")[0].getAttribute("authnum")!=undefined){
             if(state.authorized.indexOf(sCode)==-1){
-                log("  Failed authorization");
+                log("\u00A0\u00A0Failed authorization");
                 wash();
                 return 1;
             }
@@ -36,14 +37,14 @@ onScan.attachTo(document,{
                 let inp = state.postAuth.inp;
                 if(state.banCache[inp]!=undefined){
                     delete state.banCache[inp];
-                    log("  Unbanned "+fri(inp));
+                    log("\u00A0\u00A0Unbanned "+fri(inp));
                     window.API.toMain({
                         "verb": "unban",
                         "id": inp
                     });
                 } else {
                     state.banCache[inp] = new Date().getTime();
-                    log("  Banned "+fri(inp));
+                    log("\u00A0\u00A0Banned "+fri(inp));
                     if(state.inside.indexOf(inp)!=-1){
                         state.inside.splice(state.inside.indexOf(inp),1);
                         state.number--;
@@ -55,6 +56,14 @@ onScan.attachTo(document,{
                 }
                 show();
                 wash();
+            } else if(state.postAuth.id==3){
+                if(state.postAuth.inp<0){
+                    return 1;
+                }
+                state.max = state.postAuth.inp;
+                log("\u00A0\u00A0Set max to "+state.max);
+                wash();
+                show();
             }
         }
 }});
@@ -62,7 +71,12 @@ function toggle(id){
     if(state.inside.indexOf(id)==-1){
         if(state.banCache[id]!=undefined){
             abrir(5);
-            log("  Denied "+fri(id));
+            log("\u00A0\u00A0Denied "+fri(id));
+            return 1;
+        }
+        if(state.max!=null&&state.number>=state.max){
+            abrir(7);
+            log("\u00A0\u00A0Limited "+fri(id));
             return 1;
         }
         state.inside.push(id);
@@ -122,6 +136,13 @@ function subact(id){
         if(inp.length>0){
             abrir(4);
             state.postAuth.id = 2;
+            state.postAuth.inp = inp;
+        }
+        return 1;
+    } else if(id==3){
+        if(inp.length>0){
+            abrir(4);
+            state.postAuth.id = 3;
             state.postAuth.inp = inp;
         }
         return 1;
