@@ -14,25 +14,26 @@
 				<div class="log"></div>
 			</div>
 			<div class="ft">
-				<button onclick="bingle(1);">Ban</button>
-				<button onclick="bingle(0);">Manual Entry</button>
-				<button onclick="bingle(6);">Edit</button>
-				<button onclick="bingle(5);">Help</button>
+				<button onclick="abrir(6);">Limit</button>
+				<button onclick="abrir(1);">Ban</button>
+				<button onclick="abrir(0);">Manual Entry</button>
+				<button onclick="abrir(3);">Edit</button>
+				<button onclick="abrir(2);">Help</button>
 			</div>
 		</div>
 		<div class="pop-content">
 			<h1>Manual Entry</h1>
 			<div class="clickoff">
-				<input id="man" type="number" inputmode="numeric" maxlength="8" placeholder="00000000"><button class="manbutton">-&gt;</button>
+				<input id="man" type="number" inputmode="numeric" maxlength="8" placeholder="00000000"><button onclick="subact(0);">-&gt;</button>
 				<br>
-				<p id="splashman">Input ID Number</p>
+				<p class="splash">Input ID Number</p>
 			</div>
 		</div>
 		<div class="pop-content">
 			<h1>Ban</h1>
 			<div class="clickoff">
-				<input id="ban" type="number" inputmode="numeric" maxlength="8" placeholder="00000000"><button class="banbutton">-&gt;</button>
-				<p id="splashban">Input ID Number</p>
+				<input id="ban" type="number" inputmode="numeric" maxlength="8" placeholder="00000000"><button onclick="subact(1);">-&gt;</button>
+				<p class="splash">Input ID Number</p>
 			</div>
 		</div>
 		<div class="pop-content">
@@ -54,17 +55,40 @@
 				</ul>
 				<p>Misc</p>
 				<ul>
-					<li>Connected: <code>no</code></li>
-					<li>Uptime: <code>23:10:32:47</code></li>
+					<li>Connected: <code id="cst">no</code></li>
 				</ul>
 			</div>
 		</div>
 		<div class="pop-content">
 			<h1>Edit</h1>
 			<div class="clickoff">
-				<label>Add (or remove)&nbsp;</label><input id="edit" type="number" inputmode="numeric" maxlength="8" placeholder="0"><button class="editbutton">-&gt;</button>
+				<label>Add (or remove)&nbsp;</label><input id="edit" type="number" inputmode="numeric" maxlength="8" placeholder="0"><button onclick="subact(2);">-&gt;</button>
 			</div>
 		</div>
-		<script src="bingle.js"></script>
+		<div class="pop-content" authnum="bingle">
+			<h1></h1>
+			<div class="clickoff">
+				<label>Scan Employee ID</label>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1 style="color:#eb3434;font-size: 6em;">&nbsp;</h1>
+			<div class="clickoff">
+				<label>Student is banned</label>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>Set limit</h1>
+			<div class="clickoff">
+				<label>Set occupany limit&nbsp;</label><input type="number" inputmode="numeric" maxlength="3" placeholder="0"><button onclick="subact(3);">-&gt;</button>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1 style="color:#eb3434;font-size: 6em;">X</h1>
+			<div class="clickoff">
+				<label>At capacity</label>
+			</div>
+		</div>
+		<script src="bongle.js"></script>
 	</body>
 </html>

@@ -1,42 +1,40 @@
-// Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
-const path = require('node:path')
-
+const { app, BrowserWindow, ipcMain } = require("electron");
+const path = require('node:path');
+const fs = require('node:fs');
 function createWindow () {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-	frame: true
-  })
-
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+	const mainWindow = new BrowserWindow({
+		show: false,
+		frame: true,
+		autoHideMenuBar: true,
+		webPreferences: {
+			contextIsolation: true,
+			preload: path.join(__dirname, 'prehook.js'),
+		}
+	});
+	mainWindow.loadFile('index.html');
+	mainWindow.maximize();
+	mainWindow.show();
 }
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+ipcMain.handle('toMain', async function toMain(_event, data) {
+	if(data.verb==undefined) return 1;
+	if(data.verb == "ban"){
+		let ban = fs.readFileSync(path.join(__dirname, "banned.json"));
+		ban = JSON.parse(ban);
+		ban[data.id] = new Date().getTime();
+		fs.writeFileSync(path.join(__dirname, "banned.json"), JSON.stringify(ban));
+	} else if(data.verb == "unban"){
+		let ban = fs.readFileSync(path.join(__dirname, "banned.json"));
+		ban = JSON.parse(ban);
+		delete ban[data.id];
+		fs.writeFileSync(path.join(__dirname, "banned.json"), JSON.stringify(ban));
+	}
+});
 app.whenReady().then(() => {
-  createWindow()
-  mainWindow.maximize()
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+	createWindow()
+	app.on('activate', function () {
+		if (BrowserWindow.getAllWindows().length === 0) createWindow();
+	});
+});
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
-})
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+	app.quit();
+});

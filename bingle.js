@@ -34,7 +34,7 @@ function enter(v){
 	}
 	let b = document.createElement("h1");
 	// b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
-	b.textContent = "<- " + firstName + " " + lastName.slice(0,1);
+	b.textContent = "-> " + firstName + " " + lastName.slice(0,1);
 	x.prepend(b);
 	records.push(idNumberV);
 	console.log("Inside: " + records);
@@ -57,7 +57,7 @@ function leave(v){
 	}
 	let b = document.createElement("h1");
 	// b.textContent = `<- Xxx${"x".repeat(Math.random()*17)} X`;
-	b.textContent = "-> " + firstName + " " + lastName.slice(0,1);
+	b.textContent = "<- " + firstName + " " + lastName.slice(0,1);
 	x.prepend(b);
 	let remove = records.find(n => n == idNumber).findIndex;
 	records.splice(remove, 1);

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+    <head>
+        <title>s1gn r3mote trolling</title>
+    </head>
+    <body style="height:100%;margin: 0px;padding: 0px;display:flex;">
+        <!--
+            the reference
+        -->
+        <div style="border:1px solid red; width:60%;padding:1em;">
+            <h1 style="margin:0px;margin-bottom: 1em;">action</h1>
+            <div style="border:1px solid green;margin-bottom: 1em;">
+                <label>reg</label><br>
+                <input type="text" placeholder="key">
+                <button onclick="funny(this);">do</button>
+            </div>
+            <div style="border:1px solid green;margin-bottom: 1em;">
+                <label>exec</label><br>
+                <input style="width:90%;" type="text" placeholder="payload">
+                <button onclick="funny(this);">do</button>
+            </div>
+        </div>
+        <div style="border:1px solid blue; width:40%;padding:1em;overflow-y: scroll;">
+            <h1 style="margin:0px;">dump</h1>
+            <ul style="list-style: none;padding-left: 0px;">
+                <li>index</li>
+            </ul>
+        </div>
+        <script>
+            function out(m){
+                let d = document.createElement("li");
+                d.innerHTML = new Date().toLocaleTimeString() + " -> " + m;
+                document.querySelector("ul").appendChild(d);
+            }
+            function funny(b){
+                let c = b.parentElement;
+                let res = {};
+                res.type = c.querySelector("label").innerText;
+                res[c.querySelector("input").placeholder] = c.querySelector("input").value;
+                ws.send(JSON.stringify(res));
+                out(JSON.stringify(res));
+            }
+            const ws = new WebSocket("ws://"+location.host+"/sock");
+            ws.onerror = function(e){
+                out("wserror: " + e);
+            }
+            ws.onopen = function(){
+                out("ws opened !!");
+            }
+            ws.onmessage = function(e){
+                out("<span style=\"color:red;\">RESPONSE:</span> "+e.data);
+            }
+        </script>
+    </body>
+</html>
