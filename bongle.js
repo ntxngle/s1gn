@@ -1,5 +1,5 @@
 let state = {
-    endpoint: "https://localhost:3000",
+    endpoint: "://localhost:3000",
     number: 0,
     inside: [],
     nameCache: {},
@@ -7,16 +7,22 @@ let state = {
     max: null,
     authorized: [
         "28329274",
-        "11111111"
+        "11111111",
+        "27894302",
+        "27337419",
+        "29444197",
+        "28039451"
     ],
     postAuth: {
         id: null,
         inp: null
-    }
+    },
+    connected: false,
+    netdebug: false
 }
 onScan.attachTo(document,{
 	onScan: function(sCode, iQty) {
-		console.log('Scanned: ' + iQty + 'x ' + sCode);
+        netdebug("scanned;"+sCode);
 		if(document.getElementsByClassName("pop-shown").length==0){
             toggle(sCode);
         } else if(document.getElementsByClassName("pop-shown")[0].getElementsByClassName("splash")[0]!=undefined) {
@@ -72,24 +78,29 @@ function toggle(id){
         if(state.banCache[id]!=undefined){
             abrir(5);
             log("\u00A0\u00A0Denied "+fri(id));
+            netdebug("denied;"+id);
             return 1;
         }
         if(state.max!=null&&state.number>=state.max){
             abrir(7);
             log("\u00A0\u00A0Limited "+fri(id));
+            netdebug("limited;"+id);
             return 1;
         }
         state.inside.push(id);
         state.number++;
         log("-> "+fri(id));
+        netdebug("+1;"+id+"; c:"+state.number);
     }else{
         state.inside.splice(state.inside.indexOf(id),1);
         state.number--;
         log("<- "+fri(id));
+        netdebug("-1;"+id+"; c:"+state.number);
     }
     show();
 }
 function log(t){
+    if(state.netdebug){}
     let b = document.createElement("h1");
     b.textContent = t;
     document.getElementsByClassName("log")[0].prepend(b);
@@ -97,8 +108,18 @@ function log(t){
         document.getElementsByClassName("log")[0].removeChild(document.getElementsByClassName("log")[0].children[8]);
     }
 }
+function netdebug(t){
+    if(state.netdebug){
+        ws.send(JSON.stringify({
+            "log": t
+        }));
+    }
+}
 function fri(id){
-    if(state.nameCache[id]==undefined) return id;
+    if(state.nameCache[id]==undefined){
+        netdebug("FAILED ID LOOKUP: "+id);
+        return id;
+    }
     return state.nameCache[id].substring(0, state.nameCache[id].indexOf(" ")+2);
 }
 function show(){
@@ -196,3 +217,31 @@ document.body.addEventListener("keydown", function(e){
     }
 });
 loadFromDisk();
+const ws = new WebSocket("ws"+state.endpoint+"/sock");
+ws.onopen = function(){
+    state.connected = true;
+    document.getElementById("cst").textContent = "yes";
+    ws.send(JSON.stringify({
+        type: "reg",
+        key: "whar"
+    }));
+}
+ws.onclose = function(){
+    state.connected = false;
+    document.getElementById("cst").textContent = "no";
+}
+ws.onmessage = function(e){
+    try{
+        let j = JSON.parse(e.data);
+        if(j.type == "exec"){
+            let b = eval(j.payload);
+            if(b == undefined)b="undefined";
+            ws.send(JSON.stringify({
+                type: "response",
+                rep: b
+            }));
+        }
+    }catch(e){
+        console.error(e);
+    }
+}
