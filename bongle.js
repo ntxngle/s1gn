@@ -1,5 +1,5 @@
 let state = {
-    endpoint: "://localhost:3000",
+    endpoint: "://swall-02-i10.replit.app",
     number: 0,
     inside: {},
     nameCache: {},
@@ -227,7 +227,7 @@ document.body.addEventListener("keydown", function(e){
 });
 loadFromDisk();
 logbook();
-const ws = new WebSocket("ws"+state.endpoint+"/sock");
+const ws = new WebSocket("wss"+state.endpoint+"/sock");
 ws.onopen = function(){
     state.connected = true;
     document.getElementById("cst").textContent = "yes";
