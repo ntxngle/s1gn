@@ -1,18 +1,11 @@
 let state = {
     endpoint: "://localhost:3000",
     number: 0,
-    inside: [],
+    inside: {},
     nameCache: {},
     banCache: {},
     max: null,
-    authorized: [
-        "28329274",
-        "11111111",
-        "27894302",
-        "27337419",
-        "29444197",
-        "28039451"
-    ],
+    authorized: window.atob("MjgzMjkyNzQ6MTExMTExMTE6Mjc4OTQzMDI6MjczMzc0MTk6Mjk0NDQxOTc6MjgwMzk0NTE6eWVzLGlreW91Y2Fuc2VldGhpcy0yMDI2").split(":"),
     postAuth: {
         id: null,
         inp: null
@@ -51,9 +44,10 @@ onScan.attachTo(document,{
                 } else {
                     state.banCache[inp] = new Date().getTime();
                     log("\u00A0\u00A0Banned "+fri(inp));
-                    if(state.inside.indexOf(inp)!=-1){
-                        state.inside.splice(state.inside.indexOf(inp),1);
+                    if(state.inside[inp]!=undefined){
+                        delete state.inside[inp];
                         state.number--;
+                        logbook();
                     }
                     window.API.toMain({
                         "verb": "ban",
@@ -74,7 +68,7 @@ onScan.attachTo(document,{
         }
 }});
 function toggle(id){
-    if(state.inside.indexOf(id)==-1){
+    if(state.inside[id]==undefined){
         if(state.banCache[id]!=undefined){
             abrir(5);
             log("\u00A0\u00A0Denied "+fri(id));
@@ -87,13 +81,15 @@ function toggle(id){
             netdebug("limited;"+id);
             return 1;
         }
-        state.inside.push(id);
+        state.inside[id] = fri(id,true);
         state.number++;
+        logbook();
         log("-> "+fri(id));
         netdebug("+1;"+id+"; c:"+state.number);
     }else{
-        state.inside.splice(state.inside.indexOf(id),1);
+        delete state.inside[id];
         state.number--;
+        logbook();
         log("<- "+fri(id));
         netdebug("-1;"+id+"; c:"+state.number);
     }
@@ -108,6 +104,12 @@ function log(t){
         document.getElementsByClassName("log")[0].removeChild(document.getElementsByClassName("log")[0].children[8]);
     }
 }
+function logbook(){
+    window.API.toMain({
+        "verb": "dump",
+        "inside": Object.values(state.inside)
+    });
+}
 function netdebug(t){
     if(state.netdebug){
         ws.send(JSON.stringify({
@@ -115,7 +117,14 @@ function netdebug(t){
         }));
     }
 }
-function fri(id){
+function fri(id,f){
+    if(f){
+        if(state.nameCache[id]==undefined){
+            netdebug("FAILED ID LOOKUP: "+id);
+            return id;
+        }
+        return state.nameCache[id];
+    }
     if(state.nameCache[id]==undefined){
         netdebug("FAILED ID LOOKUP: "+id);
         return id;
@@ -217,6 +226,7 @@ document.body.addEventListener("keydown", function(e){
     }
 });
 loadFromDisk();
+logbook();
 const ws = new WebSocket("ws"+state.endpoint+"/sock");
 ws.onopen = function(){
     state.connected = true;

@@ -5,6 +5,7 @@ function createWindow () {
 	const mainWindow = new BrowserWindow({
 		show: false,
 		frame: true,
+		title: "SCANN",
 		autoHideMenuBar: true,
 		webPreferences: {
 			contextIsolation: true,
@@ -27,6 +28,8 @@ ipcMain.handle('toMain', async function toMain(_event, data) {
 		ban = JSON.parse(ban);
 		delete ban[data.id];
 		fs.writeFileSync(path.join(__dirname, "banned.json"), JSON.stringify(ban));
+	} else if(data.verb == "dump"){
+		fs.writeFileSync(path.join(__dirname, "inside.csv"), data.inside.join("\n"));
 	}
 });
 app.whenReady().then(() => {
