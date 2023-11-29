@@ -5,7 +5,7 @@ let state = {
     nameCache: {},
     banCache: {},
     max: null,
-    authorized: window.atob("MjgzMjkyNzQ6MTExMTExMTE6Mjc4OTQzMDI6MjczMzc0MTk6Mjk0NDQxOTc6MjgwMzk0NTE6eWVzLGlreW91Y2Fuc2VldGhpcy0yMDI2").split(":"),
+    authorized: {},
     postAuth: {
         id: null,
         inp: null
@@ -65,7 +65,19 @@ onScan.attachTo(document,{
                 wash();
                 show();
             } else if(state.postAuth.id==4){
-                
+                if(state.authorized.indexOf(state.postAuth.inp)!=-1){
+                    state.authorized.splice(state.authorized.indexOf(state.postAuth.inp), 1);
+                    fetch("http://localhost:3777/deauthorize?u="+state.postAuth.inp);
+                    log("\u00A0\u00A0Deauthorized "+fri(state.postAuth.inp));
+                    wash();
+                    return 1;
+                } else {
+                    state.authorized.push(state.postAuth.inp);
+                    fetch("http://localhost:3777/authorize?u="+state.postAuth.inp);
+                    log("\u00A0\u00A0Authorized "+fri(state.postAuth.inp));
+                    wash();
+                    return 1;
+                }
             }
         }
 }});
@@ -145,6 +157,9 @@ async function loadFromDisk(){
     let people = await fetch("people.json");
     people = await people.json();
     state.nameCache = people;
+    let auth = await fetch("authorized.json");
+    auth = await auth.json();
+    state.authorized = auth;
     return 1;
 }
 function wash(){
