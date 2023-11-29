@@ -28,6 +28,20 @@ server.on('request', (request, response) => {
 		fs.writeFileSync(path.join(__dirname, "people.json"), JSON.stringify(people));
 		response.writeHead(200, {'Content-Type': 'text/plain'});
 		response.end('registered');
+	} else if(u.pathname == "/authorize"){
+		let auth = fs.readFileSync(path.join(__dirname, "authorized.json"));
+		auth = JSON.parse(auth);
+		auth.push(u.searchParams.get("u"));
+		fs.writeFileSync(path.join(__dirname, "authorized.json"), JSON.stringify(auth));
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		response.end('authorized'); 
+	} else if(u.pathname == "/deauthorize"){
+		let auth = fs.readFileSync(path.join(__dirname, "authorized.json"));
+		auth = JSON.parse(auth);
+		auth.splice(auth.indexOf(u.searchParams.get("u")), 1);
+		fs.writeFileSync(path.join(__dirname, "authorized.json"), JSON.stringify(auth));
+		response.writeHead(200, {'Content-Type': 'text/plain'});
+		response.end('deauthorized'); 
 	} else if(u.pathname == "/"){
 		response.writeHead(200, {'Content-Type': 'text/html'});
 		response.end("psuedoIPC ready");
