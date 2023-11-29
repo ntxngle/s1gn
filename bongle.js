@@ -1,5 +1,5 @@
 let state = {
-    endpoint: "://swall-02-i10.replit.app",
+    endpoint: "://sg.nailgun.click",
     number: 0,
     inside: {},
     nameCache: {},
