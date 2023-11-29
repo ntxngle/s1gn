@@ -1,0 +1,38 @@
+{
+  "name": "s1gn",
+  "version": "1.0.0",
+  "description": "Advanced Scanner System for Schools",
+  "main": "index.js",
+  "dependencies": {
+    "electron-installer-common": "^0.10.3",
+    "electron-squirrel-startup": "^1.0.0"
+    },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.1.0",
+    "@electron-forge/maker-deb": "^7.1.0",
+    "@electron-forge/maker-rpm": "^7.1.0",
+    "@electron-forge/maker-squirrel": "^7.1.0",
+    "@electron-forge/maker-zip": "^7.1.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.1.0",
+    "electron": "^27.1.2"
+  },
+  "scripts": {
+    "test": "test",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntxngle/s1gn.git"
+  },
+  "keywords": [
+    "scan"
+  ],
+  "author": "Cattn, Javascythe, Nailington",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ntxngle/s1gn/issues"
+  },
+  "homepage": "https://github.com/ntxngle/s1gn#readme"
+}
