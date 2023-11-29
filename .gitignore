@@ -3,3 +3,5 @@ package.json
 people.json
 people-staging.json
 inside.csv
+node_modules/*
+out/*
