@@ -11,7 +11,8 @@ let state = {
         inp: null
     },
     connected: false,
-    netdebug: false
+    netdebug: false,
+    registration: null
 }
 onScan.attachTo(document,{
 	onScan: function(sCode, iQty) {
@@ -36,12 +37,14 @@ onScan.attachTo(document,{
                 let inp = state.postAuth.inp;
                 if(state.banCache[inp]!=undefined){
                     delete state.banCache[inp];
+                    fetch("http://localhost:3777/unban?u="+inp);
                     log("\u00A0\u00A0Unbanned "+fri(inp));
-                    window.API.toMain({
-                        "verb": "unban",
-                        "id": inp
-                    });
                 } else {
+                    if(state.authorized.indexOf(inp)!=-1){
+                        log("\u00A0\u00A0Cannot Ban Authorized User");
+                        wash();
+                        return 1;
+                    }
                     state.banCache[inp] = new Date().getTime();
                     log("\u00A0\u00A0Banned "+fri(inp));
                     if(state.inside[inp]!=undefined){
@@ -49,10 +52,7 @@ onScan.attachTo(document,{
                         state.number--;
                         logbook();
                     }
-                    window.API.toMain({
-                        "verb": "ban",
-                        "id": inp
-                    });
+                    fetch("http://localhost:3777/ban?u="+inp);
                 }
                 show();
                 wash();
@@ -64,6 +64,8 @@ onScan.attachTo(document,{
                 log("\u00A0\u00A0Set max to "+state.max);
                 wash();
                 show();
+            } else if(state.postAuth.id==4){
+                
             }
         }
 }});
@@ -79,6 +81,11 @@ function toggle(id){
             abrir(7);
             log("\u00A0\u00A0Limited "+fri(id));
             netdebug("limited;"+id);
+            return 1;
+        }
+        if(state.nameCache[id]==undefined){
+            abrir(9);
+            state.registration = id;
             return 1;
         }
         state.inside[id] = fri(id,true);
@@ -105,10 +112,7 @@ function log(t){
     }
 }
 function logbook(){
-    window.API.toMain({
-        "verb": "dump",
-        "inside": Object.values(state.inside)
-    });
+    //update bingle
 }
 function netdebug(t){
     if(state.netdebug){
@@ -153,6 +157,11 @@ function wash(){
     for(let i=0;i<x.length;i++){x[i].classList.remove("bad-splash");x[i].textContent="Input ID Number";};
     state.postAuth.id = null;
     state.postAuth.inp = null;
+    if(state.registration!=null){
+        //fail registration
+        log("\u00A0\u00A0Cancelled registration for "+state.registration);
+        state.registration = null;
+    }
 }
 function abrir(id){
     wash();
@@ -176,6 +185,22 @@ function subact(id){
             state.postAuth.inp = inp;
         }
         return 1;
+    } else if(id == 5){
+        //captialize first letters
+        inp = inp.toLowerCase();
+        inp = inp.split(" ");
+        for(let i=0;i<inp.length;i++){
+            inp[i] = inp[i].charAt(0).toUpperCase() + inp[i].slice(1);
+            inp[i].replaceAll(" ","");
+        }
+        inp = inp.join(" ");
+        state.nameCache[state.registration] = inp;
+        log("\u00A0\u00A0Registered "+fri(state.registration));
+        toggle(state.registration);
+        fetch("http://localhost:3777/register?u="+state.registration+"&n="+inp);
+        state.registration = null;
+        wash();
+        return 1;
     }
     if(inp.length!=8){
         document.getElementsByClassName("pop-shown")[0].getElementsByClassName("splash")[0].classList.add("bad-splash");
@@ -187,6 +212,10 @@ function subact(id){
         } else if(id==1){
             abrir(4);
             state.postAuth.id = 1;
+            state.postAuth.inp = inp;
+        } else if(id == 4){
+            abrir(4);
+            state.postAuth.id = 4;
             state.postAuth.inp = inp;
         }
     }
@@ -218,9 +247,9 @@ document.body.addEventListener("keydown", function(e){
         if(e.target.tagName=="INPUT"&&e.key=="Enter"){
             e.target.parentElement.getElementsByTagName("button")[0].click();
             e.preventDefault();
-        } else if(e.key == "e"){
+        } else if(e.key == "e"&&!e.target.classList.contains("thick")){
             e.preventDefault();
-        } else if(e.target.tagName=="INPUT"&&e.target.value.length==8&&e.key!="Backspace"){
+        } else if(e.target.tagName=="INPUT"&&e.target.value.length==8&&e.key!="Backspace"&&!e.target.classList.contains("thick")){
             e.preventDefault();
         }
     }

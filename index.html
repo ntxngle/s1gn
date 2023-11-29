@@ -18,6 +18,7 @@
 				<button onclick="abrir(1);">Ban</button>
 				<button onclick="abrir(0);">Manual Entry</button>
 				<button onclick="abrir(3);">Edit</button>
+				<!--<button onclick="abrir(8);">Promote</button>-->
 				<button onclick="abrir(2);">Help</button>
 			</div>
 		</div>
@@ -52,6 +53,7 @@
 					<li><code>Edit</code> Remove or add to count</li>
 					<li><code>Manual</code> Alternative to scanning ID</li>
 					<li><code>Ban</code> Blacklist user from entering</li>
+					<!--<li><code>Promote</code> Give user administrative permissions</li>-->
 				</ul>
 				<p>Misc</p>
 				<ul>
@@ -87,6 +89,18 @@
 			<h1 style="color:#eb3434;font-size: 6em;">X</h1>
 			<div class="clickoff">
 				<label>At capacity</label>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>Promote</h1>
+			<div class="clickoff">
+				<label>User to promote&nbsp;</label><inputtype="number" inputmode="numeric" maxlength="8" placeholder="0"><button onclick="subact(4);">-&gt;</button>
+			</div>
+		</div>
+		<div class="pop-content">
+			<h1>New User</h1>
+			<div class="clickoff">
+				<label>Name&nbsp;</label><input width="20vw" placeholder="First Last" class="thick"><button onclick="subact(5);">-&gt;</button>
 			</div>
 		</div>
 		<script src="bongle.js"></script>
