@@ -1,12 +1,13 @@
 {
   "name": "s1gn",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Advanced Scanner System for Schools",
   "main": "index.js",
   "dependencies": {
+    "@malept/cross-spawn-promise": "^2.0.0",
     "electron-installer-common": "^0.10.3",
     "electron-squirrel-startup": "^1.0.0"
-    },
+  },
   "devDependencies": {
     "@electron-forge/cli": "^7.1.0",
     "@electron-forge/maker-deb": "^7.1.0",
@@ -18,9 +19,8 @@
   },
   "scripts": {
     "test": "test",
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start": "electron .",
+    "make": "electron-forge make --platform win32"
   },
   "repository": {
     "type": "git",

@@ -151,13 +151,13 @@ function show(){
     document.getElementsByClassName("counter")[0].children[0].textContent = state.number;
 }
 async function loadFromDisk(){
-    let ban = await fetch("banned.json");
+    let ban = await fetch("state/banned.json");
     ban = await ban.json();
     state.banCache = ban;
-    let people = await fetch("people.json");
+    let people = await fetch("state/people.json");
     people = await people.json();
     state.nameCache = people;
-    let auth = await fetch("authorized.json");
+    let auth = await fetch("state/authorized.json");
     auth = await auth.json();
     state.authorized = auth;
     return 1;
